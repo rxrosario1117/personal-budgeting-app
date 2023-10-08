@@ -17,40 +17,44 @@ const BalanceScreen = ({ navigation, route }: any) => {
   const [balance, setBalance] = useState(null);
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
-    const showIdentity = () => {
-        navigation.navigate("Identity", true);
-    }
+  const showIdentity = () => {
+      navigation.navigate("Identity", true);
+  }
 
-    const getBalance = useCallback(async () => {
-      await fetch(`http://${address}:8080/api/balance`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-      .then((response) => response.json())
-      .then((data) => {
-        setBalance(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const showOptions = () => {
+    navigation.navigate("Options", true);
+  }
+
+  const getBalance = useCallback(async () => {
+    await fetch(`http://${address}:8080/api/balance`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      setBalance(data);
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  
-    useEffect(() => {
-      if (balance == null) {
-        getBalance();
-      }
-    }, [balance])
+  });
 
-    // Shows the loading circle while waiting for the API to return info
+  useEffect(() => {
     if (balance == null) {
-      return (
-        <SafeAreaView>
-            <ActivityIndicator />
-        </SafeAreaView>
-      )        
+      getBalance();
     }
+  }, [balance])
+
+  // Shows the loading circle while waiting for the API to return info
+  if (balance == null) {
+    return (
+      <SafeAreaView>
+          <ActivityIndicator />
+      </SafeAreaView>
+    )        
+  }
 
   return (
     // <View style={{ flex: 1 }}>
@@ -70,6 +74,12 @@ const BalanceScreen = ({ navigation, route }: any) => {
       <View style={styles.body}>
       <TouchableOpacity style={styles.buttonContainer} onPress={showIdentity}>
         <Text style={styles.buttonText}>Show Identity</Text>
+      </TouchableOpacity>
+      </View>
+
+      <View style={styles.body}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={showOptions}>
+        <Text style={styles.buttonText}>Back To Options</Text>
       </TouchableOpacity>
       </View>
     </ScrollView>

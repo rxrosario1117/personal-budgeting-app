@@ -58,6 +58,7 @@ module.exports = StyleSheet.create({
     width: '100%',
     paddingVertical: 16,
     paddingHorizontal: 16,
+    marginTop: 10
   },
   buttonText: {
     fontSize: 20,
@@ -67,4 +68,7 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
+  background: {
+    color: '00ff00'
+  }
 });

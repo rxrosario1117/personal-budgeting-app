@@ -21,6 +21,10 @@ const IdentityScreen = ({ navigation, route }: any) => {
         navigation.navigate("Balance", true);
     }
 
+    const showOptions = () => {
+      navigation.navigate("Options", true);
+    }
+
     const getIdentity = useCallback(async () => {
       await fetch(`http://${address}:8080/api/identity`, {
         method: "POST",
@@ -70,6 +74,12 @@ const IdentityScreen = ({ navigation, route }: any) => {
       <View style={styles.body}>
       <TouchableOpacity style={styles.buttonContainer} onPress={showBalance}>
         <Text style={styles.buttonText}>Show Balance</Text>
+      </TouchableOpacity>
+      </View>
+
+      <View style={styles.body}>
+      <TouchableOpacity style={styles.buttonContainer} onPress={showOptions}>
+        <Text style={styles.buttonText}>Back To Options</Text>
       </TouchableOpacity>
       </View>
     </ScrollView>

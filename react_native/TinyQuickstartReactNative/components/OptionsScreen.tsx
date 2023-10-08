@@ -18,11 +18,11 @@ const OptionsScreen = ({ navigation, route }: any) => {
     navigation.navigate("Identity", true);
     }
     const showBalance = () => {
-        navigation.navigate("Success", true);
+        navigation.navigate("Balance", true);
     }
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1 }} >
       <View style={styles.heading}>
         <Text style={styles.titleText}>Show Identity/Balance</Text>
       </View>
