@@ -38,6 +38,7 @@ const client = new PlaidApi(config);
 //Creates a Link token and return it
 app.post('/api/create_link_token', async (req, res, next) => {
   let payload = {};
+  console.log(req.body);
   //Payload if running iOS
   if (req.body.address === 'localhost') {
     payload = {
@@ -60,6 +61,7 @@ app.post('/api/create_link_token', async (req, res, next) => {
     };
   }
   const tokenResponse = await client.linkTokenCreate(payload);
+  console.log(tokenResponse.data);
   res.json(tokenResponse.data);
 });
 
@@ -73,6 +75,8 @@ app.post('/api/exchange_public_token', async (req, res, next) => {
   // Store access_token in DB instead of session storage
   req.session.access_token = exchangeResponse.data.access_token;
   res.json(true);
+
+  console.log(req.session.access_token)
 });
 
 // Fetches balance data using the Node client library for Plaid
@@ -81,6 +85,16 @@ app.post('/api/balance', async (req, res, next) => {
   const balanceResponse = await client.accountsBalanceGet({access_token});
   res.json({
     Balance: balanceResponse.data,
+  });
+});
+
+// Fetches balance data using the Node client library for Plaid
+app.post('/api/identity', async (req, res, next) => {
+  console.log("identity")
+  const access_token = req.session.access_token;
+  const identityResponse = await client.identityGet({access_token});
+  res.json({
+    Identity: identityResponse.data,
   });
 });
 
