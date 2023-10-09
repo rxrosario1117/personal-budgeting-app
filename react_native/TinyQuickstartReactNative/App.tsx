@@ -9,6 +9,7 @@ import { PlaidTheme } from './components/style';
 import OptionsScreen from './components/OptionsScreen';
 import IdentityScreen from './components/IdentityScreen';
 import BalanceScreen from './components/BalanceScreen';
+import AvailableProductsScreen from './components/AvailableProductsScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,16 @@ const App = (): React.ReactElement => {
           <Stack.Screen
             name="Balance"
             component={BalanceScreen}
+            options={{
+              headerStyle: {
+                backgroundColor: '#000000',
+              },
+              headerTintColor: '#fff',
+            }}
+          />
+          <Stack.Screen
+            name="Products"
+            component={AvailableProductsScreen}
             options={{
               headerStyle: {
                 backgroundColor: '#000000',

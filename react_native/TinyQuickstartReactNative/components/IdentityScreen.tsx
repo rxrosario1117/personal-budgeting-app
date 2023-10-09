@@ -13,7 +13,7 @@ import {
 var styles = require('./style');
 
 const IdentityScreen = ({ navigation, route }: any) => {
-  const [data, setData] = useState(null);
+  const [transactions, setTransactions] = useState(null);
   const [identity, setIdentity] = useState(null);
   const address = Platform.OS === 'ios' ? 'localhost' : '10.0.2.2';
 
@@ -40,15 +40,37 @@ const IdentityScreen = ({ navigation, route }: any) => {
         console.log(err);
       });
     });
-  
+
+    const getTransactions = useCallback(async () => {
+      await fetch(`http://${address}:8080/api/transactions/get`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setTransactions(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    });
+
     useEffect(() => {
       if (identity == null) {
         getIdentity();
       }
     }, [identity])
 
+    useEffect(() => {
+      if (transactions == null) {
+        getTransactions();
+      }
+    }, [transactions])
+
     // Shows the loading circle while waiting for the API to return info
-    if (identity == null) {
+    if (identity == null || transactions == null) {
       return (
         <SafeAreaView>
             <ActivityIndicator />
@@ -67,6 +89,15 @@ const IdentityScreen = ({ navigation, route }: any) => {
           Account ID: 
             {
               JSON.stringify(identity.Identity.accounts[0].account_id, null, 2)
+            }
+        </Text>
+      </ScrollView>
+
+      <ScrollView style={styles.scrollView}>
+        <Text style={styles.baseText}>
+          Transactions: 
+            {
+              JSON.stringify(transactions, null, 2)
             }
         </Text>
       </ScrollView>

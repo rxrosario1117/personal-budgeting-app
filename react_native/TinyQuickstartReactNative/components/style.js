@@ -45,6 +45,13 @@ module.exports = StyleSheet.create({
     marginTop: 36,
     marginHorizontal: 10,
   },
+  subTitleText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    marginTop: 36,
+    marginHorizontal: 10,
+  },
   bottom: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -68,7 +75,7 @@ module.exports = StyleSheet.create({
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
-  background: {
-    color: '00ff00'
+  scrollView: {
+    marginTop: 10
   }
 });

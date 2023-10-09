@@ -98,6 +98,61 @@ app.post('/api/identity', async (req, res, next) => {
   });
 });
 
+// Fetches balance data using the Node client library for Plaid
+app.post('/api/investments/holdings/get', async (req, res, next) => {
+  console.log("investments")
+  const access_token = req.session.access_token;
+  const investmentResponse = await client.investmentsHoldingsGet({access_token});
+  res.json({
+    Investments: investmentResponse.data,
+  });
+});
+
+// Fetches Plaid products available to us
+app.post('/api/item/get', async (req, res, next) => {
+  console.log("item")
+  const access_token = req.session.access_token;
+  const itemResponse = await client.itemGet({access_token});
+  res.json({
+    item: itemResponse.data,
+  });
+});
+
+// Fetches Plaid products available to us
+app.post('/api/transactions/get', async (req, res, next) => {
+  const access_token = req.session.access_token;
+  
+  const request = {
+
+    access_token: access_token,
+  
+    start_date: '2018-01-01',
+  
+    end_date: '2020-02-01'
+  
+  };
+  const transactionsResponse = await client.transactionsGet(request);
+  res.json({
+    transactions: transactionsResponse.data.transactions,
+  });
+  const total_transactions = transactionsResponse.data.total_transactions;
+
+  while (transactionsResponse.data.transactions.length < total_transactions) {
+    const paginatedRequest = {
+      access_token: access_token,
+      start_date: '2018-01-01',
+      end_date: '2020-02-01',
+      options: {
+        offset: transactions.length
+      },
+    };
+    const paginatedResponse = await client.transactionsGet(paginatedRequest);
+    transactions = transactions.concat(
+      paginatedResponse.data.transactions,
+    );
+  }
+});
+
 app.listen(port, () => {
   console.log(`Backend server is running on port ${port}...`);
 });

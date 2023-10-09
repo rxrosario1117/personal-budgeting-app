@@ -32,7 +32,7 @@ const HomeScreen = ({ navigation }: any) => {
       createLinkToken();
     }
   }, [linkToken]);
-  console.log("hello")
+  console.log("HomeScreen Start")
   return (
     <View style={{flex: 1}}>
       <View style={styles.heading}>
@@ -51,7 +51,7 @@ const HomeScreen = ({ navigation }: any) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ public_token: success.publicToken }),
+            body: JSON.stringify({ public_token: success.publicToken }),            
             })
             .catch((err) => {
               console.log(err);
